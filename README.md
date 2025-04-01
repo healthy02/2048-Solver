@@ -1,2 +1,13 @@
-# 2048-Solver
-This algorithm solves the game 2048 using the Minimax approach. 
+# 2048 Solver
+This Algorithm is based on the approach as described by the paper 'AI Plays 2048' by Yun Nie, Wenqi Hou and Yicheng An. The Minimax approach to play the game works on the idea of a player(in this case the AI) and the opponent(in case the algorithm which adds the 2 and 4 tiles randomly on the grid).
+The Link for the aforementioned paper - https://cs229.stanford.edu/proj2016/report/NieHouAn-AIPlays2048-report.pdf
+
+## Logic
+The idea is that for each state of the game, there are atmost 4 possibilities for the next state, if the person moves up, down, left or right. Now after the move we see if there is any change in the board, if not then it is not a valid move. If it is a valid move then the game adds a 2 or 4 tile randomly on the board. Then we create 4 new possibilities for the state of the grid. Now we need to decide which path to follow, which move wil be best at what stage of the game. So we need to define a few things first. Let's say the state of the game be a node, the move or direction be the edge and the final state be the leaf node. Exactly like a tree, we just have to find the right branches to reach the final result of the 2048 leaf. 
+
+So here we want that the numbers are arranged in an 'S' shaped matrix. Such that the numbers add upto each other easily, and larger numbers remain surrounded by largers numbers. To do this we need to add weights to the grid matrix, so we have added the weights in an exponential form, because we are also dealing with exponential numbers. 
+
+
+We calculate upto 4 states ahead for each confirmed node, which is also called the depth of the tree. But now the calculation becomes long and time-consuming, so we need to prune some branches of the tree. This is done by Alpha - Beta Pruning. The basic idea is that we stop going forward if the current state of the board cannot be improved anymore, by doing any move. At any given node we need to calculate 2^8 or 256 possible states, but we stop calculating if this condition is met. Alpha represents the best score the maximizing player can achieve, while beta represents the best score the the random tile function can achieve. As the algorithm explores the tree, it updates alpha and beta values. If it finds that a certain branch can’t improve the current alpha-beta limits, it "prunes" that branch.
+
+So basically the Minimizer i.e. the random tile function check all the possible empty tiles at a given state and then allocates the worst possible tile in that place. Now if the current worst is still better that the next worst then we go ahead. Same goes with the maximising algorithm, where proceed only if the player moves in the direction which maximises the weighted score of the grid, if it lesser than the current score then we stop moving in that direction. Simple!
